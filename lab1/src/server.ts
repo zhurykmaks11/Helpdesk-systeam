@@ -16,7 +16,7 @@ app.use("/tickets", ticketRoutes);
 app.use("/users", userRoutes);
 app.use("/comments", commentRoutes);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
     res.send("API працює");
