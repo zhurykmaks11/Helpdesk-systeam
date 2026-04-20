@@ -5,8 +5,7 @@ import userRoutes from "./modules/users/routes/userRoutes";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 import {errorHandler} from "./middleware/errorHandler";
-import { startConsumer } from "./consumer";
-
+import { startConsumer } from "./modules/users/events/consumer";
 startConsumer();
 
 dotenv.config();

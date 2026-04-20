@@ -10,12 +10,12 @@ export const startRelay = async () => {
             const connection = await amqp.connect("amqp://localhost");
 
             connection.on("close", () => {
-                console.log("RabbitMQ connection closed. Reconnecting...");
+                console.log("🔌 RabbitMQ connection closed. Reconnecting...");
                 setTimeout(connect, 3000);
             });
 
             connection.on("error", (err) => {
-                console.log("RabbitMQ error:", err.message);
+                console.log("❌ RabbitMQ error:", err.message);
             });
 
             channel = await connection.createChannel();
@@ -41,17 +41,17 @@ export const startRelay = async () => {
             if (!event.processed) {
 
                 try {
+                    console.log(`📤 [SAGA ${event.payload.sagaId}] Sending ${event.type}`);
+
                     channel.sendToQueue(
                         "ticket_events",
                         Buffer.from(JSON.stringify(event))
                     );
 
-                    console.log("📤 Sent event:", event.type);
-
                     event.processed = true;
 
                 } catch (err) {
-                    console.log("Send failed, will retry...");
+                    console.log("❌ Send failed, will retry...");
                 }
             }
 

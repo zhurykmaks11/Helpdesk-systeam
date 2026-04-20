@@ -14,26 +14,28 @@ export const getTicketById = (id: string): Ticket | undefined => {
     return tickets.find(ticket => ticket.id === id);
 };
 
-export const createTicket = async (dto: CreateTicketDto, correlationId: string): Promise<Ticket> => {
+export const createTicket = async (dto: CreateTicketDto): Promise<Ticket> => {
 
-    const user = await getUserById(dto.userId, correlationId);
-
-    if (!user) {
-        throw new Error("User not found");
-    }
+    const sagaId = Date.now().toString();
 
     const newTicket = mapCreateDtoToTicket(dto);
+
+    tickets.push(newTicket);
 
     outbox.push({
         id: Date.now().toString(),
         type: "TICKET_CREATED",
-        payload: newTicket,
+        payload: {
+            ...newTicket,
+            sagaId
+        },
         processed: false
     });
-    tickets.push(newTicket);
+
     console.log("OUTBOX:", outbox);
+
     return newTicket;
-}
+};
 
 
 export const updateTicketStatus = (id: string, status: string): Ticket | null => {

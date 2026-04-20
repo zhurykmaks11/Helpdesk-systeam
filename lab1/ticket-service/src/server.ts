@@ -8,9 +8,10 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 import {correlationId} from "./middleware/correlationId";
 import { startRelay } from "./modules/tickets/outbox/relay";
+import {startTicketConsumer} from "./modules/tickets/events/consumer";
 
 startRelay();
-
+startTicketConsumer();
 dotenv.config();
 
 const app = express();
