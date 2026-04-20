@@ -39,7 +39,7 @@ export const createNewTicket = async (req: Request, res: Response, next: NextFun
     try {
 
         const correlationId = req.headers["x-correlation-id"] as string;
-        const ticket = await createTicket(dto, correlationId);
+        const ticket = await createTicket(dto);
         res.status(201).json(ticket);
     } catch (err) {
         next(err);
